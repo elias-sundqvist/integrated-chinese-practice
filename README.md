@@ -2,6 +2,8 @@
 
 This web application helps you practice vocabulary from the **first five chapters** of the **Integrated Chinese (4th Edition)** textbook. It is a small single‑page app that runs entirely in the browser and can be installed as a Progressive Web App (PWA) for offline use.
 
+You can try the live site at [https://elias-sundqvist.github.io/integrated-chinese-practice/](https://elias-sundqvist.github.io/integrated-chinese-practice/).
+
 ## Features
 
 - Vocabulary for Lessons 1‑5, including dialogues and basic phrases
