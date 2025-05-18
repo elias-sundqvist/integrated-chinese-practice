@@ -1,0 +1,147 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to top for long content */
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.controls {
+    margin-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.controls label {
+    font-weight: bold;
+}
+
+.controls select, .controls button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.controls button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.controls button:hover {
+    background-color: #45a049;
+}
+
+.practice-area {
+    margin-bottom: 20px;
+}
+
+#question-prompt {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+#question-display {
+    font-size: 2.5em; /* Larger for Chinese characters */
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #007bff;
+    min-height: 50px; /* Ensure space even when empty */
+}
+
+#answer-input {
+    width: calc(100% - 22px); /* Account for padding */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1.2em;
+    box-sizing: border-box;
+}
+
+#check-answer {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+#check-answer:hover {
+    background-color: #0056b3;
+}
+
+#feedback {
+    margin-top: 10px;
+    font-weight: bold;
+    min-height: 20px; /* Ensure space */
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+#score {
+    margin-top: 15px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+#current-word-info {
+    background-color: #e9ecef;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 15px;
+    font-size: 0.9em;
+    color: #495057;
+    text-align: left;
+    line-height: 1.6;
+}
+
+/* For smaller screens */
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+    h1 {
+        font-size: 1.5em;
+    }
+    #question-display {
+        font-size: 2em;
+    }
+    .controls select, .controls button, #check-answer, #answer-input {
+        font-size: 0.9em;
+    }
+}

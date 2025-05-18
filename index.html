@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Vocab Practice</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50"/>
+    <!-- iOS specific meta tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+</head>
+<body>
+    <div class="container">
+        <h1>Chinese Vocabulary Practice</h1>
+
+        <div class="controls">
+            <label for="lesson-select">Lesson/Section:</label>
+            <select id="lesson-select">
+                <!-- Options will be populated by JavaScript -->
+            </select>
+
+            <label for="mode-select">Practice Mode:</label>
+            <select id="mode-select">
+                <option value="chineseToChars">Chinese -> Characters (IME)</option>
+                <option value="englishToChars">English -> Characters (IME)</option>
+                <option value="chineseToPinyin">Chinese -> Pinyin (tones as numbers)</option>
+            </select>
+            <button id="start-practice">Start/Next Word</button>
+        </div>
+
+        <div class="practice-area">
+            <div id="question-prompt"></div>
+            <div id="question-display"></div>
+            <input type="text" id="answer-input" placeholder="Type your answer here">
+            <button id="check-answer">Check Answer</button>
+        </div>
+
+        <div id="feedback"></div>
+        <div id="score">Score: 0 / 0</div>
+        <div id="current-word-info" style="margin-top: 10px; font-size: 0.9em;"></div>
+    </div>
+
+    <!-- Vocabulary Scripts (Load BEFORE the main script.js) -->
+    <script src="vocab-global.js"></script> <!-- Initializes allVocabulary -->
+    <script src="vocab-basics.js"></script>
+    <script src="vocab-lesson1.js"></script>
+    <script src="vocab-lesson2.js"></script>
+    <script src="vocab-lesson3.js"></script>
+    <script src="vocab-lesson4.js"></script>
+    <script src="vocab-lesson5.js"></script>
+    <!-- Add vocab-keepingitcasual.js if you decide to make one -->
+
+    <script src="script.js"></script>
+</body>
+</html>
