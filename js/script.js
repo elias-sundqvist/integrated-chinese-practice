@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
     let totalAsked = 0;
     let askedIndices = new Set();
+    let attemptedCurrent = false; // track if the current word has been attempted
 
     // Populate lesson select from the globally loaded allVocabulary
     // Ensure allVocabulary is populated by the separate vocab JS files before this script runs.
@@ -120,6 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
             practiceActive = false;
             answerInput.disabled = true;
             checkAnswerButton.disabled = true;
+            startPracticeButton.disabled = false;
+            startPracticeButton.textContent = "Start/Next Word";
             return;
         }
 
@@ -136,6 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
         currentWordInfoDiv.innerHTML = "";
         answerInput.value = "";
         answerInput.focus();
+        startPracticeButton.disabled = true;
+        checkAnswerButton.disabled = false;
+        answerInput.disabled = false;
+        attemptedCurrent = false;
     }
 
     function displayQuestion() {
@@ -203,26 +210,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
         }
 
+        if (!attemptedCurrent) {
+            totalAsked++;
+            if (isCorrect) {
+                score++;
+            }
+        }
+
+        attemptedCurrent = true;
+
         if (isCorrect) {
             feedbackDiv.textContent = "Correct!";
             feedbackDiv.className = 'correct';
-            if (!checkAnswerButton.disabled) {
-                 score++;
-            }
+            answerInput.disabled = true;
+            checkAnswerButton.disabled = true;
+            startPracticeButton.disabled = false;
+            startPracticeButton.textContent = "Next Word";
         } else {
             feedbackDiv.textContent = `Incorrect. The answer is: ${correctAnswerText}`;
             feedbackDiv.className = 'incorrect';
+            answerInput.disabled = false;
+            checkAnswerButton.disabled = false;
+            startPracticeButton.disabled = true;
         }
 
-        if (!checkAnswerButton.disabled) {
-            totalAsked++;
-        }
         updateScore();
         displayCurrentWordInfo();
-
-        checkAnswerButton.disabled = true;
-        answerInput.disabled = true;
-        startPracticeButton.textContent = "Next Word";
     }
 
     function displayCurrentWordInfo() {
