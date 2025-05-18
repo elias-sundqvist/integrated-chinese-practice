@@ -196,6 +196,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return normalized;
     }
 
+    function normalizeChineseChars(str) {
+        if (!str) return "";
+        return str
+            .replace(/（/g, '(')
+            .replace(/）/g, ')')
+            .replace(/\s+/g, '')
+            .trim();
+    }
+
+    function generateChineseAnswerVariants(str) {
+        const normalized = normalizeChineseChars(str);
+        const withoutParens = normalized.replace(/\([^)]*\)/g, '');
+        const withContent = normalized.replace(/[()]/g, '');
+        return new Set([normalized, withoutParens, withContent]);
+    }
+
     function checkAnswer() {
         if (!practiceActive || !currentWord) return;
 
@@ -206,11 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         switch (mode) {
             case 'chineseToChars':
-                isCorrect = userAnswer === currentWord.chinese;
-                correctAnswerText = currentWord.chinese;
-                break;
             case 'englishToChars':
-                isCorrect = userAnswer === currentWord.chinese;
+                const normalizedUserChars = normalizeChineseChars(userAnswer);
+                const acceptableAnswers = generateChineseAnswerVariants(currentWord.chinese);
+                isCorrect = acceptableAnswers.has(normalizedUserChars);
                 correctAnswerText = currentWord.chinese;
                 break;
             case 'chineseToPinyin':
