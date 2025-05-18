@@ -24,7 +24,7 @@ The app will display a prompt based on your selected mode. Type your answer and 
 
 ## Adding More Vocabulary
 
-Vocabulary is stored in the `vocab-lesson*.js` files. Each file adds a set of words to the global `allVocabulary` object. To extend the app beyond Lesson 5, create new files following the same pattern and include them in `index.html` and `sw.js`.
+Vocabulary lives in the `vocab/` directory (files named `vocab-lesson*.js`). Each file adds a set of words to the global `allVocabulary` object. To extend the app beyond Lesson 5, create new files in that folder and include them in `index.html` and `js/sw.js`.
 
 ## PWA Support
 
