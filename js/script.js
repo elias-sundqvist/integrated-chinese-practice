@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const feedbackDiv = document.getElementById('feedback');
     const scoreDiv = document.getElementById('score');
     const currentWordInfoDiv = document.getElementById('current-word-info');
+    const sessionReportDiv = document.getElementById('session-report');
 
     let currentVocabList = [];
     let currentWord = null;
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalAsked = 0;
     let askedIndices = new Set();
     let attemptedCurrent = false; // track if the current word has been attempted
+    let results = [];
 
     // Populate lesson select from the globally loaded allVocabulary
     // Ensure allVocabulary is populated by the separate vocab JS files before this script runs.
@@ -105,6 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         practiceActive = true;
+        results = [];
+        sessionReportDiv.innerHTML = '';
         feedbackDiv.textContent = "";
         currentWordInfoDiv.innerHTML = "";
         answerInput.value = "";
@@ -123,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
             checkAnswerButton.disabled = true;
             startPracticeButton.disabled = false;
             startPracticeButton.textContent = "Start/Next Word";
+            showSessionReport();
             return;
         }
 
@@ -212,6 +217,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!attemptedCurrent) {
             totalAsked++;
+            results.push({
+                chinese: currentWord.chinese,
+                english: currentWord.english,
+                correct: isCorrect
+            });
             if (isCorrect) {
                 score++;
             }
@@ -258,6 +268,20 @@ document.addEventListener('DOMContentLoaded', () => {
         updateScore();
     }
 
+    function showSessionReport() {
+        if (results.length === 0) {
+            sessionReportDiv.innerHTML = '';
+            return;
+        }
+        let html = '<h2>Practice Report</h2><ul>';
+        results.forEach(res => {
+            const label = `${res.chinese} (${res.english})`;
+            html += `<li class="${res.correct ? 'correct' : 'incorrect'}">${label}: ${res.correct ? '✓' : '✗'}</li>`;
+        });
+        html += '</ul>';
+        sessionReportDiv.innerHTML = html;
+    }
+
     startPracticeButton.addEventListener('click', () => {
         if (!practiceActive) {
             // Begin a new practice session
@@ -285,6 +309,8 @@ document.addEventListener('DOMContentLoaded', () => {
         questionDisplayDiv.textContent = "Press 'Start/Next Word' to begin.";
         feedbackDiv.textContent = "";
         currentWordInfoDiv.innerHTML = "";
+        sessionReportDiv.innerHTML = '';
+        results = [];
         resetScore();
         askedIndices.clear();
         loadVocabulary(); // Load vocab for newly selected lesson
@@ -295,6 +321,8 @@ document.addEventListener('DOMContentLoaded', () => {
         questionDisplayDiv.textContent = "Press 'Start/Next Word' to begin.";
         feedbackDiv.textContent = "";
         currentWordInfoDiv.innerHTML = "";
+        sessionReportDiv.innerHTML = '';
+        results = [];
         // Score and askedIndices can persist if only mode changes for the same word list
         if (currentWord && practiceActive) { // If a word is already displayed, re-display for new mode
             displayQuestion();

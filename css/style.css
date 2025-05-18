@@ -164,6 +164,20 @@ h1 {
     line-height: 1.6;
 }
 
+#session-report {
+    margin-top: 20px;
+    text-align: left;
+}
+
+#session-report ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#session-report li {
+    margin: 4px 0;
+}
+
 /* For smaller screens */
 @media (max-width: 480px) {
     .container {
