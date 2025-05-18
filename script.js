@@ -232,12 +232,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     startPracticeButton.addEventListener('click', () => {
-        if (!practiceActive || checkAnswerButton.disabled) {
+        if (!practiceActive) {
+            // Begin a new practice session
             startPracticeButton.textContent = "Start/Next Word";
             checkAnswerButton.disabled = false;
             answerInput.disabled = false;
             startPractice();
         } else {
+            // Continue with the next word without resetting progress
+            checkAnswerButton.disabled = false;
+            answerInput.disabled = false;
             nextWord();
         }
     });
