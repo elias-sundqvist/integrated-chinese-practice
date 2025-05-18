@@ -108,6 +108,14 @@ h1 {
     min-height: 50px; /* Ensure space even when empty */
 }
 
+#speak-word {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+
 #answer-input {
     width: calc(100% - 22px); /* Account for padding */
     padding: 10px;

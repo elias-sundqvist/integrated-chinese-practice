@@ -4,6 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const startPracticeButton = document.getElementById('start-practice');
     const questionPromptDiv = document.getElementById('question-prompt');
     const questionDisplayDiv = document.getElementById('question-display');
+    const speakWordButton = document.getElementById('speak-word');
+    const ttsSupported = 'speechSynthesis' in window;
+    speakWordButton.disabled = true;
+    if (!ttsSupported) {
+        speakWordButton.style.display = 'none';
+    }
     const answerInput = document.getElementById('answer-input');
     const checkAnswerButton = document.getElementById('check-answer');
     const feedbackDiv = document.getElementById('feedback');
@@ -125,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             practiceActive = false;
             answerInput.disabled = true;
             checkAnswerButton.disabled = true;
+            speakWordButton.disabled = true;
             startPracticeButton.disabled = false;
             startPracticeButton.textContent = "Start/Next Word";
             showSessionReport();
@@ -144,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentWordInfoDiv.innerHTML = "";
         answerInput.value = "";
         answerInput.focus();
+        if (ttsSupported) speakWordButton.disabled = false;
         startPracticeButton.disabled = true;
         checkAnswerButton.disabled = false;
         answerInput.disabled = false;
@@ -258,6 +266,14 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
+    function speakCurrentWord() {
+        if (!currentWord || !('speechSynthesis' in window)) return;
+        const utterance = new SpeechSynthesisUtterance(currentWord.chinese);
+        utterance.lang = 'zh-CN';
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+    }
+
     function updateScore() {
         scoreDiv.textContent = `Score: ${score} / ${totalAsked}`;
     }
@@ -298,6 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     checkAnswerButton.addEventListener('click', checkAnswer);
+    speakWordButton.addEventListener('click', speakCurrentWord);
     answerInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter' && !checkAnswerButton.disabled) {
             checkAnswer();
@@ -311,6 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentWordInfoDiv.innerHTML = "";
         sessionReportDiv.innerHTML = '';
         results = [];
+        speakWordButton.disabled = true;
         resetScore();
         askedIndices.clear();
         loadVocabulary(); // Load vocab for newly selected lesson
@@ -323,6 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentWordInfoDiv.innerHTML = "";
         sessionReportDiv.innerHTML = '';
         results = [];
+        speakWordButton.disabled = true;
         // Score and askedIndices can persist if only mode changes for the same word list
         if (currentWord && practiceActive) { // If a word is already displayed, re-display for new mode
             displayQuestion();
