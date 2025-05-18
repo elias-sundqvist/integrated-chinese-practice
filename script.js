@@ -20,6 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Populate lesson select from the globally loaded allVocabulary
     // Ensure allVocabulary is populated by the separate vocab JS files before this script runs.
     if (window.allVocabulary && Object.keys(window.allVocabulary).length > 0) {
+        // Add special option to practice all lessons combined
+        const allOption = document.createElement('option');
+        allOption.value = '__ALL__';
+        allOption.textContent = 'All Lessons';
+        lessonSelect.appendChild(allOption);
+
         // Sort keys for consistent order, e.g., by lesson number then by dialogue/section
         const sortedLessonKeys = Object.keys(window.allVocabulary).sort((a, b) => {
             // Basic sort, can be made more sophisticated if needed
@@ -67,7 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadVocabulary() {
         const selectedLesson = lessonSelect.value;
         // allVocabulary should be populated by the individual vocab JS files now
-        currentVocabList = window.allVocabulary[selectedLesson] || [];
+        if (selectedLesson === '__ALL__') {
+            // Combine vocabulary from all lessons
+            currentVocabList = [];
+            Object.values(window.allVocabulary).forEach(list => {
+                currentVocabList = currentVocabList.concat(list);
+            });
+        } else {
+            currentVocabList = window.allVocabulary[selectedLesson] || [];
+        }
         askedIndices.clear();
         resetScore();
         if (currentVocabList.length === 0 && selectedLesson) { // only show error if a lesson was actually selected
