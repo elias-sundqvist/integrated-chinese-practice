@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkAnswerButton = document.getElementById('check-answer');
     const feedbackDiv = document.getElementById('feedback');
     const scoreDiv = document.getElementById('score');
+    const progressDiv = document.getElementById('progress');
     const currentWordInfoDiv = document.getElementById('current-word-info');
     const sessionReportDiv = document.getElementById('session-report');
 
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         practiceActive: false,
         score: 0,
         totalAsked: 0,
+        totalQuestions: 0,
         askedIndices: new Set(),
         attemptedCurrent: false, // track if the current word has been attempted
         results: []
@@ -93,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             state.currentVocabList = window.allVocabulary[selectedLesson] || [];
         }
+        state.totalQuestions = state.currentVocabList.length;
         state.askedIndices.clear();
         resetScore();
         if (state.currentVocabList.length === 0 && selectedLesson) { // only show error if a lesson was actually selected
@@ -136,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             speakWordButton.disabled = true;
             startPracticeButton.disabled = false;
             startPracticeButton.textContent = "Start/Next Word";
+            updateProgress();
             showSessionReport();
             return;
         }
@@ -158,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         checkAnswerButton.disabled = false;
         answerInput.disabled = false;
         state.attemptedCurrent = false;
+        updateProgress();
     }
 
     function displayQuestion() {
@@ -295,10 +300,21 @@ document.addEventListener('DOMContentLoaded', () => {
         scoreDiv.textContent = `Score: ${state.score} / ${state.totalAsked}`;
     }
 
+    function updateProgress() {
+        if (state.totalQuestions > 0 && state.practiceActive) {
+            progressDiv.textContent = `Progress: ${state.askedIndices.size} / ${state.totalQuestions}`;
+        } else if (state.totalQuestions > 0) {
+            progressDiv.textContent = `Progress: 0 / ${state.totalQuestions}`;
+        } else {
+            progressDiv.textContent = '';
+        }
+    }
+
     function resetScore() {
         state.score = 0;
         state.totalAsked = 0;
         updateScore();
+        updateProgress();
     }
 
     function showSessionReport() {
