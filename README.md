@@ -35,5 +35,5 @@ Enjoy practicing your Chinese!
 ## Continuous Deployment
 
 The site is automatically deployed to GitHub Pages whenever changes are pushed
-to the `main` branch. The workflow lives in `.github/workflows/deploy.yml` and
+to the `master` branch. The workflow lives in `.github/workflows/deploy.yml` and
 uploads the contents of the repository to the GitHub Pages environment.
