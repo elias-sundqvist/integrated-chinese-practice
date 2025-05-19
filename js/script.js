@@ -332,13 +332,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     checkAnswerButton.addEventListener('click', checkAnswer);
     speakWordButton.addEventListener('click', speakCurrentWord);
-    answerInput.addEventListener('keypress', (event) => {
+    // Allow pressing Enter anywhere to check the answer or move to the next word
+    // even when the answer input is disabled after a correct response.
+    document.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             if (!checkAnswerButton.disabled) {
                 checkAnswer();
             } else if (!startPracticeButton.disabled) {
-                // Allows pressing Enter again after a correct answer to
-                // proceed to the next word without clicking the button
+                // Enables using Enter to proceed without requiring a click
                 startPracticeButton.click();
             }
         }
