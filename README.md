@@ -31,3 +31,9 @@ Vocabulary lives in the `vocab/` directory (files named `vocab-lesson*.js`). Eac
 The app includes a Service Worker and `manifest.json` so it can be installed on your device. After visiting the page once, it should continue to work without an internet connection.
 
 Enjoy practicing your Chinese!
+
+## Continuous Deployment
+
+The site is automatically deployed to GitHub Pages whenever changes are pushed
+to the `main` branch. The workflow lives in `.github/workflows/deploy.yml` and
+uploads the contents of the repository to the GitHub Pages environment.
