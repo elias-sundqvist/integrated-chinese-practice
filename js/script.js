@@ -17,14 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentWordInfoDiv = document.getElementById('current-word-info');
     const sessionReportDiv = document.getElementById('session-report');
 
-    let currentVocabList = [];
-    let currentWord = null;
-    let practiceActive = false;
-    let score = 0;
-    let totalAsked = 0;
-    let askedIndices = new Set();
-    let attemptedCurrent = false; // track if the current word has been attempted
-    let results = [];
+    const state = {
+        currentVocabList: [],
+        currentWord: null,
+        practiceActive: false,
+        score: 0,
+        totalAsked: 0,
+        askedIndices: new Set(),
+        attemptedCurrent: false, // track if the current word has been attempted
+        results: []
+    };
 
     // Populate lesson select from the globally loaded allVocabulary
     // Ensure allVocabulary is populated by the separate vocab JS files before this script runs.
@@ -84,36 +86,36 @@ document.addEventListener('DOMContentLoaded', () => {
         // allVocabulary should be populated by the individual vocab JS files now
         if (selectedLesson === '__ALL__') {
             // Combine vocabulary from all lessons
-            currentVocabList = [];
+            state.currentVocabList = [];
             Object.values(window.allVocabulary).forEach(list => {
-                currentVocabList = currentVocabList.concat(list);
+                state.currentVocabList = state.currentVocabList.concat(list);
             });
         } else {
-            currentVocabList = window.allVocabulary[selectedLesson] || [];
+            state.currentVocabList = window.allVocabulary[selectedLesson] || [];
         }
-        askedIndices.clear();
+        state.askedIndices.clear();
         resetScore();
-        if (currentVocabList.length === 0 && selectedLesson) { // only show error if a lesson was actually selected
+        if (state.currentVocabList.length === 0 && selectedLesson) { // only show error if a lesson was actually selected
             questionDisplayDiv.textContent = `No vocabulary for "${selectedLesson}".`;
             console.warn(`No vocabulary found for key: ${selectedLesson}`);
-            practiceActive = false;
+            state.practiceActive = false;
         } else if (!selectedLesson) {
              questionDisplayDiv.textContent = "Please select a lesson.";
-             practiceActive = false;
+             state.practiceActive = false;
         }
     }
 
     function startPractice() {
         // loadVocabulary is called when the select changes, or on initial setup.
         // Here, we ensure it's up-to-date if the user clicks start without changing selection.
-        loadVocabulary(); // This will set currentVocabList
+        loadVocabulary(); // This will set state.currentVocabList
 
-        if (!currentVocabList || currentVocabList.length === 0) {
+        if (!state.currentVocabList || state.currentVocabList.length === 0) {
             alert("Please select a lesson/section with vocabulary or add vocabulary to it.");
             return;
         }
-        practiceActive = true;
-        results = [];
+        state.practiceActive = true;
+        state.results = [];
         sessionReportDiv.innerHTML = '';
         feedbackDiv.textContent = "";
         currentWordInfoDiv.innerHTML = "";
@@ -124,11 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function nextWord() {
-        if (askedIndices.size >= currentVocabList.length) {
+        if (state.askedIndices.size >= state.currentVocabList.length) {
             questionDisplayDiv.textContent = "Section Complete!";
-            feedbackDiv.textContent = `Final Score: ${score} / ${totalAsked}`;
+            feedbackDiv.textContent = `Final Score: ${state.score} / ${state.totalAsked}`;
             currentWordInfoDiv.innerHTML = "";
-            practiceActive = false;
+            state.practiceActive = false;
             answerInput.disabled = true;
             checkAnswerButton.disabled = true;
             speakWordButton.disabled = true;
@@ -140,11 +142,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let randomIndex;
         do {
-            randomIndex = Math.floor(Math.random() * currentVocabList.length);
-        } while (askedIndices.has(randomIndex));
+            randomIndex = Math.floor(Math.random() * state.currentVocabList.length);
+        } while (state.askedIndices.has(randomIndex));
 
-        askedIndices.add(randomIndex);
-        currentWord = currentVocabList[randomIndex];
+        state.askedIndices.add(randomIndex);
+        state.currentWord = state.currentVocabList[randomIndex];
 
         displayQuestion();
         feedbackDiv.textContent = "";
@@ -155,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         startPracticeButton.disabled = true;
         checkAnswerButton.disabled = false;
         answerInput.disabled = false;
-        attemptedCurrent = false;
+        state.attemptedCurrent = false;
     }
 
     function displayQuestion() {
@@ -166,19 +168,19 @@ document.addEventListener('DOMContentLoaded', () => {
         switch (mode) {
             case 'chineseToChars':
                 questionPromptDiv.textContent = "Write the Chinese characters for:";
-                questionDisplayDiv.textContent = currentWord.chinese;
+                questionDisplayDiv.textContent = state.currentWord.chinese;
                 answerInput.placeholder = "Type Chinese characters (e.g., 你好)";
                 answerInput.lang = "zh";
                 break;
             case 'englishToChars':
                 questionPromptDiv.textContent = "Write the Chinese characters for:";
-                questionDisplayDiv.textContent = currentWord.english;
+                questionDisplayDiv.textContent = state.currentWord.english;
                 answerInput.placeholder = "Type Chinese characters (e.g., 你好)";
                 answerInput.lang = "zh";
                 break;
             case 'chineseToPinyin':
                 questionPromptDiv.textContent = "Write the Pinyin (with tone numbers, e.g., ni3 hao3) for:";
-                questionDisplayDiv.textContent = currentWord.chinese;
+                questionDisplayDiv.textContent = state.currentWord.chinese;
                 answerInput.placeholder = "e.g., ni3 hao3 (use 5 for neutral)";
                 break;
         }
@@ -213,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkAnswer() {
-        if (!practiceActive || !currentWord) return;
+        if (!state.practiceActive || !state.currentWord) return;
 
         const userAnswer = answerInput.value.trim();
         const mode = modeSelect.value;
@@ -224,33 +226,33 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'chineseToChars':
             case 'englishToChars':
                 const normalizedUserChars = normalizeChineseChars(userAnswer);
-                const acceptableAnswers = generateChineseAnswerVariants(currentWord.chinese);
+                const acceptableAnswers = generateChineseAnswerVariants(state.currentWord.chinese);
                 isCorrect = acceptableAnswers.has(normalizedUserChars);
-                correctAnswerText = currentWord.chinese;
+                correctAnswerText = state.currentWord.chinese;
                 break;
             case 'chineseToPinyin':
                 const normalizedUserAnswer = normalizePinyin(userAnswer);
                 // Ensure pinyinNumbered in vocab.js uses 'v' for 'ü' if you use the normalization above that converts ü to v.
                 // Example: { chinese: "女", pinyin: "nǚ", pinyinNumbered: "nv3", english: "female" }
-                const normalizedCorrectPinyin = normalizePinyin(currentWord.pinyinNumbered);
+                const normalizedCorrectPinyin = normalizePinyin(state.currentWord.pinyinNumbered);
                 isCorrect = normalizedUserAnswer === normalizedCorrectPinyin;
-                correctAnswerText = currentWord.pinyinNumbered;
+                correctAnswerText = state.currentWord.pinyinNumbered;
                 break;
         }
 
-        if (!attemptedCurrent) {
-            totalAsked++;
-            results.push({
-                chinese: currentWord.chinese,
-                english: currentWord.english,
+        if (!state.attemptedCurrent) {
+            state.totalAsked++;
+            state.results.push({
+                chinese: state.currentWord.chinese,
+                english: state.currentWord.english,
                 correct: isCorrect
             });
             if (isCorrect) {
-                score++;
+                state.score++;
             }
         }
 
-        attemptedCurrent = true;
+        state.attemptedCurrent = true;
 
         if (isCorrect) {
             feedbackDiv.textContent = "Correct!";
@@ -272,40 +274,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayCurrentWordInfo() {
-        if (!currentWord) return;
+        if (!state.currentWord) return;
         currentWordInfoDiv.innerHTML = `
-            <strong>Chinese:</strong> ${currentWord.chinese}<br>
-            <strong>Pinyin (marks):</strong> ${currentWord.pinyin}<br>
-            <strong>Pinyin (numbered):</strong> ${currentWord.pinyinNumbered}<br>
-            <strong>English:</strong> ${currentWord.english}
+            <strong>Chinese:</strong> ${state.currentWord.chinese}<br>
+            <strong>Pinyin (marks):</strong> ${state.currentWord.pinyin}<br>
+            <strong>Pinyin (numbered):</strong> ${state.currentWord.pinyinNumbered}<br>
+            <strong>English:</strong> ${state.currentWord.english}
         `;
     }
 
     function speakCurrentWord() {
-        if (!currentWord || !('speechSynthesis' in window)) return;
-        const utterance = new SpeechSynthesisUtterance(currentWord.chinese);
+        if (!state.currentWord || !('speechSynthesis' in window)) return;
+        const utterance = new SpeechSynthesisUtterance(state.currentWord.chinese);
         utterance.lang = 'zh-CN';
         window.speechSynthesis.cancel();
         window.speechSynthesis.speak(utterance);
     }
 
     function updateScore() {
-        scoreDiv.textContent = `Score: ${score} / ${totalAsked}`;
+        scoreDiv.textContent = `Score: ${state.score} / ${state.totalAsked}`;
     }
 
     function resetScore() {
-        score = 0;
-        totalAsked = 0;
+        state.score = 0;
+        state.totalAsked = 0;
         updateScore();
     }
 
     function showSessionReport() {
-        if (results.length === 0) {
+        if (state.results.length === 0) {
             sessionReportDiv.innerHTML = '';
             return;
         }
         let html = '<h2>Practice Report</h2><ul>';
-        results.forEach(res => {
+        state.results.forEach(res => {
             const label = `${res.chinese} (${res.english})`;
             html += `<li class="${res.correct ? 'correct' : 'incorrect'}">${label}: ${res.correct ? '✓' : '✗'}</li>`;
         });
@@ -314,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     startPracticeButton.addEventListener('click', () => {
-        if (!practiceActive) {
+        if (!state.practiceActive) {
             // Begin a new practice session
             startPracticeButton.textContent = "Start/Next Word";
             checkAnswerButton.disabled = false;
@@ -343,32 +345,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     lessonSelect.addEventListener('change', () => {
-        practiceActive = false;
+        state.practiceActive = false;
         questionDisplayDiv.textContent = "Press 'Start/Next Word' to begin.";
         feedbackDiv.textContent = "";
         currentWordInfoDiv.innerHTML = "";
         sessionReportDiv.innerHTML = '';
-        results = [];
+        state.results = [];
         speakWordButton.disabled = true;
         resetScore();
-        askedIndices.clear();
+        state.askedIndices.clear();
         loadVocabulary(); // Load vocab for newly selected lesson
     });
 
     modeSelect.addEventListener('change', () => {
-        practiceActive = false;
+        state.practiceActive = false;
         questionDisplayDiv.textContent = "Press 'Start/Next Word' to begin.";
         feedbackDiv.textContent = "";
         currentWordInfoDiv.innerHTML = "";
         sessionReportDiv.innerHTML = '';
-        results = [];
+        state.results = [];
         speakWordButton.disabled = true;
         // Score and askedIndices can persist if only mode changes for the same word list
-        if (currentWord && practiceActive) { // If a word is already displayed, re-display for new mode
+        if (state.currentWord && state.practiceActive) { // If a word is already displayed, re-display for new mode
             displayQuestion();
         } else { // Otherwise, reset fully for next "start"
             resetScore();
-            askedIndices.clear();
+            state.askedIndices.clear();
         }
     });
 
