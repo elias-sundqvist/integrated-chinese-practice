@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const questionPromptDiv = document.getElementById('question-prompt');
     const questionDisplayDiv = document.getElementById('question-display');
     const speakWordButton = document.getElementById('speak-word');
+    const practiceFailedButton = document.getElementById('practice-failed');
     const ttsSupported = 'speechSynthesis' in window;
     speakWordButton.disabled = true;
     if (!ttsSupported) {
@@ -108,14 +109,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function startPractice() {
-        // loadVocabulary is called when the select changes, or on initial setup.
-        // Here, we ensure it's up-to-date if the user clicks start without changing selection.
-        loadVocabulary(); // This will set state.currentVocabList
+    function startPractice(listOverride = null) {
+        if (listOverride) {
+            state.currentVocabList = listOverride;
+            state.totalQuestions = state.currentVocabList.length;
+            state.askedIndices.clear();
+            resetScore();
+        } else {
+            // loadVocabulary is called when the select changes, or on initial setup.
+            // Here, we ensure it's up-to-date if the user clicks start without changing selection.
+            loadVocabulary(); // This will set state.currentVocabList
 
-        if (!state.currentVocabList || state.currentVocabList.length === 0) {
-            alert("Please select a lesson/section with vocabulary or add vocabulary to it.");
-            return;
+            if (!state.currentVocabList || state.currentVocabList.length === 0) {
+                alert("Please select a lesson/section with vocabulary or add vocabulary to it.");
+                return;
+            }
         }
         state.practiceActive = true;
         state.results = [];
@@ -125,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         answerInput.value = "";
         answerInput.disabled = false;
         checkAnswerButton.disabled = false;
+        practiceFailedButton.disabled = true;
         nextWord();
     }
 
@@ -139,6 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
             speakWordButton.disabled = true;
             startPracticeButton.disabled = false;
             startPracticeButton.textContent = "Start/Next Word";
+            const hasFails = state.results.some(r => !r.correct);
+            practiceFailedButton.disabled = !hasFails;
             updateProgress();
             showSessionReport();
             return;
@@ -248,8 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!state.attemptedCurrent) {
             state.totalAsked++;
             state.results.push({
-                chinese: state.currentWord.chinese,
-                english: state.currentWord.english,
+                word: state.currentWord,
                 correct: isCorrect
             });
             if (isCorrect) {
@@ -324,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         let html = '<h2>Practice Report</h2><ul>';
         state.results.forEach(res => {
-            const label = `${res.chinese} (${res.english})`;
+            const label = `${res.word.chinese} (${res.word.english})`;
             html += `<li class="${res.correct ? 'correct' : 'incorrect'}">${label}: ${res.correct ? '✓' : '✗'}</li>`;
         });
         html += '</ul>';
@@ -346,6 +356,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    practiceFailedButton.addEventListener('click', () => {
+        const failed = state.results.filter(r => !r.correct).map(r => r.word);
+        if (failed.length === 0) {
+            return;
+        }
+        startPractice(failed);
+    });
+
     checkAnswerButton.addEventListener('click', checkAnswer);
     speakWordButton.addEventListener('click', speakCurrentWord);
     // Allow pressing Enter anywhere to check the answer or move to the next word
@@ -354,6 +372,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.key === 'Enter') {
             if (!checkAnswerButton.disabled) {
                 checkAnswer();
+            } else if (!practiceFailedButton.disabled) {
+                practiceFailedButton.click();
             } else if (!startPracticeButton.disabled) {
                 // Enables using Enter to proceed without requiring a click
                 startPracticeButton.click();
@@ -369,6 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionReportDiv.innerHTML = '';
         state.results = [];
         speakWordButton.disabled = true;
+        practiceFailedButton.disabled = true;
         resetScore();
         state.askedIndices.clear();
         loadVocabulary(); // Load vocab for newly selected lesson
@@ -382,6 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionReportDiv.innerHTML = '';
         state.results = [];
         speakWordButton.disabled = true;
+        practiceFailedButton.disabled = true;
         // Score and askedIndices can persist if only mode changes for the same word list
         if (state.currentWord && state.practiceActive) { // If a word is already displayed, re-display for new mode
             displayQuestion();
@@ -396,6 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
          loadVocabulary(); // Load vocab for the initially selected lesson
     }
     questionDisplayDiv.textContent = "Press 'Start/Next Word' to begin.";
+    practiceFailedButton.disabled = true;
 
 
     // Service Worker Registration
