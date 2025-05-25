@@ -12,6 +12,7 @@ You can try the live site at [https://elias-sundqvist.github.io/integrated-chine
   - English → Characters
   - Chinese → Pinyin with tone numbers
 - Randomized questions and score tracking
+- Option to keep practicing only the words you missed
 - Works offline after the first visit
 
 ## Getting Started
@@ -21,6 +22,7 @@ You can try the live site at [https://elias-sundqvist.github.io/integrated-chine
 3. Choose a lesson and practice mode, then click **Start/Next Word**.
 
 The app will display a prompt based on your selected mode. Type your answer and click **Check Answer**. Your score updates as you progress through the vocabulary list.
+After a section is complete, click **Practice Failed** to drill only the words you missed.
 
 ## Adding More Vocabulary
 
