@@ -1,4 +1,4 @@
-const CACHE_NAME = 'chinese-vocab-cache-v2'; // Updated cache version
+const CACHE_NAME = 'chinese-vocab-cache-v3'; // Updated cache version
 const urlsToCache = [
     'index.html',
     'css/style.css',
@@ -12,7 +12,7 @@ const urlsToCache = [
     'vocab/vocab-lesson3.js',
     'vocab/vocab-lesson4.js',
     'vocab/vocab-lesson5.js',
-    // If you add more vocab files like 'vocab-keepingitcasual.js', add them here
+    'vocab/vocab-extra.js',
     'icons/icon-192x192.png',
     'icons/icon-512x512.png',
     'icons/icon-maskable-192x192.png',
