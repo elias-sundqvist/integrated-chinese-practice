@@ -6,7 +6,7 @@ You can try the live site at [https://elias-sundqvist.github.io/integrated-chine
 
 ## Features
 
-- Vocabulary for Lessons 1‑5, including dialogues and basic phrases
+- Vocabulary for Lessons 1‑5, including dialogues, basic phrases, and extra course vocabulary
 - Multiple practice modes:
   - Chinese → Characters (type characters with your IME)
   - English → Characters

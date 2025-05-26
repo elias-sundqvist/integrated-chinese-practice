@@ -33,6 +33,13 @@ window.allVocabulary["Basics: Useful Expressions - Survival"] = [
     { chinese: "请你告诉我", pinyin: "Qǐng nǐ gàosu wǒ", pinyinNumbered: "qing3 ni3 gao4su5 wo3", english: "Please tell me . . ." }
 ];
 
+window.allVocabulary["Basics: Greetings - Extra"] = [
+    { chinese: "早上好", pinyin: "Zǎoshang hǎo", pinyinNumbered: "zao3shang5 hao3", english: "Good morning" },
+    { chinese: "晚上好", pinyin: "Wǎnshang hǎo", pinyinNumbered: "wan3shang5 hao3", english: "Good evening" },
+    { chinese: "大家好", pinyin: "Dàjiā hǎo", pinyinNumbered: "da4jia1 hao3", english: "Hello everyone" },
+    { chinese: "你们好", pinyin: "Nǐmen hǎo", pinyinNumbered: "ni3men5 hao3", english: "Hello (to all of you)" }
+];
+
 window.allVocabulary["Basics: Numerals"] = [
     { chinese: "〇", pinyin: "líng", pinyinNumbered: "ling2", english: "zero" },
     { chinese: "一", pinyin: "yī", pinyinNumbered: "yi1", english: "one" },

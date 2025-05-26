@@ -243,3 +243,22 @@ window.allVocabulary["Video: Visiting Wang Jinghai"] = [
     { chinese: "做客", pinyin: "Zuòkè", pinyinNumbered: "zuo4ke4", english: "To be a guest" }
 ];
 
+window.allVocabulary["Extra: Time References"] = [
+    { chinese: "上午", pinyin: "shàngwǔ", pinyinNumbered: "shang4wu3", english: "morning" },
+    { chinese: "中午", pinyin: "zhōngwǔ", pinyinNumbered: "zhong1wu3", english: "noon" },
+    { chinese: "下午", pinyin: "xiàwǔ", pinyinNumbered: "xia4wu3", english: "afternoon" },
+    { chinese: "时间", pinyin: "shíjiān", pinyinNumbered: "shi2jian1", english: "time" },
+    { chinese: "以后", pinyin: "yǐhòu", pinyinNumbered: "yi3hou4", english: "after; later" }
+];
+
+window.allVocabulary["Extra: Locations"] = [
+    { chinese: "宿舍", pinyin: "sùshè", pinyinNumbered: "su4she4", english: "dormitory" },
+    { chinese: "公园", pinyin: "gōngyuán", pinyinNumbered: "gong1yuan2", english: "park" }
+];
+
+window.allVocabulary["Extra: Nationalities"] = [
+    { chinese: "瑞典", pinyin: "Ruìdiǎn", pinyinNumbered: "Rui4dian3", english: "Sweden" },
+    { chinese: "瑞典人", pinyin: "Ruìdiǎn rén", pinyinNumbered: "Rui4dian3 ren2", english: "Swedish person" },
+    { chinese: "我来自", pinyin: "Wǒ láizì", pinyinNumbered: "wo3 lai2zi4", english: "I come from" }
+];
+
