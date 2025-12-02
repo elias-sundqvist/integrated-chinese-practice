@@ -216,11 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function normalizeChineseChars(str) {
         if (!str) return "";
-        return str
-            .replace(/（/g, '(')
-            .replace(/）/g, ')')
-            .replace(/\s+/g, '')
-            .trim();
+        const chineseChars = str.match(/[\p{Script=Han}]/gu);
+        return chineseChars ? chineseChars.join('') : '';
     }
 
     function generateChineseAnswerVariants(str) {
