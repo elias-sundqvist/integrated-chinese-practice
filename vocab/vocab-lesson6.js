@@ -1,0 +1,57 @@
+// vocab-lesson6.js
+if (typeof window.allVocabulary === 'undefined') { window.allVocabulary = {}; }
+
+window.allVocabulary["Lesson 6: Making Appointments - Dialogue 1 Vocabulary"] = [
+    { chinese: "给", pinyin: "gěi", pinyinNumbered: "gei3", english: "to, for" },
+    { chinese: "打电话", pinyin: "dǎ diànhuà", pinyinNumbered: "da3 dian4hua4", english: "to make a phone call" },
+    { chinese: "电话", pinyin: "diànhuà", pinyinNumbered: "dian4hua4", english: "telephone" },
+    { chinese: "喂", pinyin: "wéi/wèi", pinyinNumbered: "wei2/wei4", english: "(on the phone) Hello!, Hey!" },
+    { chinese: "在", pinyin: "zài", pinyinNumbered: "zai4", english: "to be present, to be at (a place)" },
+    { chinese: "就", pinyin: "jiù", pinyinNumbered: "jiu4", english: "precisely, exactly" },
+    { chinese: "您", pinyin: "nín", pinyinNumbered: "nin2", english: "you (honorific for 你)" },
+    { chinese: "哪/哪", pinyin: "nǎ/něi", pinyinNumbered: "na3/nei3", english: "which" },
+    { chinese: "位", pinyin: "wèi", pinyinNumbered: "wei4", english: "(polite measure word for people)" },
+    { chinese: "下午", pinyin: "xiàwǔ", pinyinNumbered: "xia4wu3", english: "afternoon" },
+    { chinese: "时间", pinyin: "shíjiān", pinyinNumbered: "shi2jian1", english: "time" },
+    { chinese: "问题", pinyin: "wèntí", pinyinNumbered: "wen4ti2", english: "question, problem" },
+    { chinese: "要", pinyin: "yào", pinyinNumbered: "yao4", english: "will, to be going to; to want to, to have a desire to" },
+    { chinese: "开会", pinyin: "kāi huì", pinyinNumbered: "kai1 hui4", english: "to have a meeting" },
+    { chinese: "开", pinyin: "kāi", pinyinNumbered: "kai1", english: "to open, to hold (a meeting, party, etc.)" },
+    { chinese: "会", pinyin: "huì", pinyinNumbered: "hui4", english: "meeting" },
+    { chinese: "上午", pinyin: "shàngwǔ", pinyinNumbered: "shang4wu3", english: "morning" },
+    { chinese: "节", pinyin: "jié", pinyinNumbered: "jie2", english: "(measure word for class periods)" },
+    { chinese: "课", pinyin: "kè", pinyinNumbered: "ke4", english: "class, course, lesson" },
+    { chinese: "年级", pinyin: "niánjí", pinyinNumbered: "nian2ji2", english: "grade in school" },
+    { chinese: "考试", pinyin: "kǎo shì", pinyinNumbered: "kao3 shi4", english: "to give or take a test; test" },
+    { chinese: "考", pinyin: "kǎo", pinyinNumbered: "kao3", english: "to give or take a test" },
+    { chinese: "试", pinyin: "shì", pinyinNumbered: "shi4", english: "test; to try, to experiment" },
+    { chinese: "以后", pinyin: "yǐhòu", pinyinNumbered: "yi3hou4", english: "after, from now on, later on" },
+    { chinese: "空(儿)", pinyin: "kòng(r)", pinyinNumbered: "kong4(r5)", english: "free time" },
+    { chinese: "要是", pinyin: "yàoshi", pinyinNumbered: "yao4shi4", english: "if" },
+    { chinese: "方便", pinyin: "fāngbiàn", pinyinNumbered: "fang1bian4", english: "convenient" },
+    { chinese: "到", pinyin: "dào", pinyinNumbered: "dao4", english: "to go to, to arrive" },
+    { chinese: "办公室", pinyin: "bàngōngshì", pinyinNumbered: "ban4gong1shi4", english: "office" },
+    { chinese: "行", pinyin: "xíng", pinyinNumbered: "xing2", english: "all right, OK" },
+    { chinese: "等", pinyin: "děng", pinyinNumbered: "deng3", english: "to wait, to wait for" },
+    { chinese: "别", pinyin: "bié", pinyinNumbered: "bie2", english: "don't" },
+    { chinese: "客气", pinyin: "kèqi", pinyinNumbered: "ke4qi5", english: "polite" },
+    { chinese: "常老师", pinyin: "Cháng lǎoshī", pinyinNumbered: "Chang2 lao3shi1", english: "Teacher Chang" }
+];
+
+window.allVocabulary["Lesson 6: Making Appointments - Dialogue 2 Vocabulary"] = [
+    { chinese: "下个", pinyin: "xià ge", pinyinNumbered: "xia4 ge5", english: "next" },
+    { chinese: "下", pinyin: "xià", pinyinNumbered: "xia4", english: "below, next" },
+    { chinese: "中文", pinyin: "Zhōngwén", pinyinNumbered: "Zhong1wen2", english: "Chinese language" },
+    { chinese: "文", pinyin: "wén", pinyinNumbered: "wen2", english: "language, script, written language" },
+    { chinese: "帮", pinyin: "bāng", pinyinNumbered: "bang1", english: "to help" },
+    { chinese: "准备", pinyin: "zhǔnbèi", pinyinNumbered: "zhun3bei4", english: "to prepare" },
+    { chinese: "练习", pinyin: "liànxí", pinyinNumbered: "lian4xi2", english: "to practice" },
+    { chinese: "说", pinyin: "shuō", pinyinNumbered: "shuo1", english: "to say, to speak" },
+    { chinese: "啊", pinyin: "a", pinyinNumbered: "a5", english: "(a sentence-final particle of exclamation, interrogation, etc.)" },
+    { chinese: "但是", pinyin: "dànshì", pinyinNumbered: "dan4shi4", english: "but" },
+    { chinese: "得", pinyin: "děi", pinyinNumbered: "dei3", english: "must, to have to" },
+    { chinese: "跟", pinyin: "gēn", pinyinNumbered: "gen1", english: "with" },
+    { chinese: "见面", pinyin: "jiàn miàn", pinyinNumbered: "jian4 mian4", english: "to meet up, to meet with" },
+    { chinese: "面", pinyin: "miàn", pinyinNumbered: "mian4", english: "face" },
+    { chinese: "回来", pinyin: "huí lai", pinyinNumbered: "hui2 lai5", english: "to come back" }
+];
