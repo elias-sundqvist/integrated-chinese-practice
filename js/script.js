@@ -283,6 +283,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updateScore();
         displayCurrentWordInfo();
+
+        // Speak the current word on every attempt, regardless of correctness
+        speakCurrentWord();
     }
 
     function displayCurrentWordInfo() {
